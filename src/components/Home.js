@@ -1,25 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { keys } from '../utils/util'
+import Loader from './Loader'
+import IndicadorCard from './IndicadorCard'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
-        minWidth: 300
+        minWidth: 250
     },
     details: {
         display: 'flex',
         flexDirection: 'column',
     },
-    content: {
-        flex: '1 0 auto',
+    button: {
+        color: '#0000008a',
     },
     container: {
         padding: 40
@@ -27,37 +26,50 @@ const useStyles = makeStyles((theme) => ({
     griptop: {
         flexGrow: 1,
     },
-    paper: {
-        height: 140,
-        width: 100,
-    },
     control: {
         padding: theme.spacing(2),
     },
+    title: {
+        textAlign: 'right'
+    }
 }));
 
 export default function Home() {
     const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
+    const [indicadores, setIndicadores] = useState(null);
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(true);
+        axios.get("http://localhost:2000/last")
+            .then(res => {
+                setIndicadores(res.data.data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                setIsLoading(false);
+                setError("Error al cargar la información.")
+            })
+    }, []);
 
     return (
-        <Container className={classes.container}>
-            <Grid container className={classes.griptop} spacing={2}>
-                <Grid item xs={12} sm={12} md={12} lg={12} >
-                    <Grid container justify="center" spacing={spacing}>
-                        {keys.map((value) => (
-                            <Grid key={value} item>
-                                <Card className={classes.root}>
-                                    <CardContent className={classes.content}>
-                                        <Typography component="h5" variant="h5">{value.toUpperCase()}</Typography>
-                                        <Typography variant="subtitle1" color="textSecondary">Mac Miller</Typography>
-                                    </CardContent>
-                                </Card>
+        isLoading ? <Loader /> :
+            error ? <p>{error}</p> :
+                <Container className={classes.container}>
+                    <Grid container className={classes.griptop} spacing={2}>
+                        <Grid item >
+                            <Grid container justify="center" spacing={spacing}>
+                                {keys.map((key) => {
+                                    const indicador = indicadores[key];
+                                    return (
+                                        <IndicadorCard indicador={indicador} />
+                                    );
+                                })}
                             </Grid>
-                        ))}
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Grid>
-        </Container>
+                </Container>
     );
 }

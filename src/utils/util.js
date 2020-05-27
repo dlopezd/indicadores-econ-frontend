@@ -1,2 +1,2 @@
-const keys = ["cobre", "dolar", "euro", "ipc", "ivp", "oro", "plata", "uf", "utm", "yen"];
+const keys = ["dolar", "euro", "yen", "oro", "plata", "cobre", "uf", "utm", "ipc", "ivp"];
 exports.keys = keys;
