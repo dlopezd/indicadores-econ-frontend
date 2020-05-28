@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
 import { makeStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom'
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,11 +69,16 @@ const IndicadorCard = (props) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button className={classes.button} size="small">Ver histórico</Button>
+                    <Button
+                        className={classes.button}
+                        size="small"
+                        onClick={()=> {props.history.push(`${indicador.frecuency}/${indicador.key}`)}}>
+                        Ver histórico
+                    </Button>
                 </CardActions>
             </Card>
         </Grid>
     )
 }
 
-export default IndicadorCard;
+export default withRouter(IndicadorCard);

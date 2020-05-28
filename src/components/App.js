@@ -3,8 +3,8 @@ import { Switch, Route, withRouter } from 'react-router-dom'
 
 import { keys } from '../utils/util'
 
-import Historic from './Historic'
-import Home from './Home'
+import Historic from './Historic/Historic'
+import Home from './Home/Home'
 import NavBar from './NavBar'
 import NotFound from './NotFound'
 
@@ -14,11 +14,14 @@ const App = _ => {
     <>
       <NavBar />
       <Switch>
-        <Route exact path='/:key' render={
+        <Route exact path='/:frecuency/:indicador' render={
           ({ match }) => {
-            const key = match.params.key;
-            if (keys.some(k => k === key)) {
-              return <Historic key={key} />;
+            const indicador = match.params.indicador;
+            if (keys.some(k => k === indicador)) {
+              return (
+                <Historic
+                  indicador={indicador}
+                  frecuency={match.params.frecuency} />);
             }
             return <NotFound />;
           }} />

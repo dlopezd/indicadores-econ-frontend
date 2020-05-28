@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { keys } from '../utils/util'
-import Loader from './Loader'
+import { keys } from '../../utils/util'
+import Loader from '../Loader'
 import IndicadorCard from './IndicadorCard'
 
 import { makeStyles } from '@material-ui/core/styles';
