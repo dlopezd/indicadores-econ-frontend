@@ -6,7 +6,7 @@ import { keys } from '../utils/util'
 import Historic from './Historic/Historic'
 import Home from './Home/Home'
 import NavBar from './NavBar'
-import NotFound from './NotFound'
+import Error from './Error'
 
 const App = _ => {
 
@@ -23,10 +23,12 @@ const App = _ => {
                   indicador={indicador}
                   frecuency={match.params.frecuency} />);
             }
-            return <NotFound />;
+            return <Error msg="Contenido solicitado no detectado." />;
           }} />
         <Route exact path='/' component={Home} />
-        <Route exact path='/*' component={NotFound} />
+        <Route exact path='/*' render={ () => {
+          return (<Error msg="Contenido solicitado no detectado." />)
+          }} />
       </Switch>
     </>
   );

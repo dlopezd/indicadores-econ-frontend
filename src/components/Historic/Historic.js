@@ -6,6 +6,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
 
 import { HistoricContext } from '../../context/historicsContext';
 import Loader from '../Loader'
+import Error from '../Error'
 import SearchForm from './SearchForm';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         padding: 24
     },
     alert: {
-        marginBottom: 20
+        marginTop: 20
     }
 }));
 
@@ -102,7 +103,7 @@ const Historic = props => {
 
     return (
         historicContext.isLoading ? <Loader /> :
-            historicContext.error ? <p>{historicContext.error}</p> :
+            historicContext.error ? <Error msg="Error al cargar la información."/> :
                 <Container className={classes.container}>
                     <Button
                         color="primary"
@@ -114,7 +115,8 @@ const Historic = props => {
                     <SearchForm
                         from={from}
                         to={to}
-                        searchHandler={searchHandler} />
+                        searchHandler={searchHandler}
+                        frecuency={props.frecuency} />
 
                     <Card className={classes.card} variant="outlined">
                         <CardContent className={classes.CardContent}>
@@ -126,18 +128,18 @@ const Historic = props => {
                             </Typography>
                             <Grid container justify="space-around">
                                 <Grid item>
-                                {
-                                        dataChart && (
+                                    {renderLineChart}
+                                    {
+                                        dataChart && dataChart[0] && (
                                             dataChart[0].fecha != from ||
-                                            dataChart[dataChart.length - 1].last.max_date != to)
+                                            dataChart[dataChart.length - 1].fecha != to)
                                             &&
                                         <Alert
                                             className={classes.alert}
                                             severity="warning">
-                                            No se poseen registros para todas las fechas buscadas. Sólo se mostrarán los disponibles.
+                                            Podrían no existir registros para todas las fechas deseadas. Sólo se mostrarán los disponibles.
                                         </Alert>
                                     }
-                                    {renderLineChart}
                                 </Grid>
                                 <Grid item>
                                     <TableData dataChart={dataChart} />

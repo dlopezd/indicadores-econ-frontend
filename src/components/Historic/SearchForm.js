@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchForm = (props) => {
     const classes = useStyles();
-    const [from, setFromDate] = React.useState(moment.unix(props.from).startOf('day'));
-    const [to, setToDate] = React.useState(moment.unix(props.to).startOf('day'));
+    const [from, setFromDate] = React.useState(moment.unix(props.from).utc().startOf(props.frecuency === "daily" ? 'day': 'month'));
+    const [to, setToDate] = React.useState(moment.unix(props.to).utc().startOf(props.frecuency === "daily" ? 'day': 'month'));
 
     const searchHandler = event => {
         event.preventDefault();
@@ -55,16 +55,18 @@ const SearchForm = (props) => {
                 <Grid container justify="space-around">
                     <MuiPickersUtilsProvider utils={MomentUtils} locale='es'>
                         <KeyboardDatePicker
+                            views={props.frecuency === "daily" ? ["month", "day"] : ["month"]}
                             label="Desde"
                             value={from}
                             onChange={date => setFromDate(date)}
-                            format="D MMM YYYY"
+                            format={props.frecuency === "daily" ? "D MMM YYYY" : "MMM YYYY"}
                         />
                         <KeyboardDatePicker
+                            views={props.frecuency === "daily" ? ["month", "day"] : ["month"]}
                             label="Hasta"
                             value={to}
                             onChange={date => setToDate(date)}
-                            format="D MMM YYYY"
+                            format={props.frecuency === "daily" ? "D MMM YYYY" : "MMM YYYY"}
                         />
                     </MuiPickersUtilsProvider>
                     <Button
