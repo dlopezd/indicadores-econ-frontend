@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import moment from 'moment'
 import 'moment/locale/es'
 import axios from 'axios'
@@ -9,39 +9,42 @@ import { withRouter, Link } from 'react-router-dom'
 import Loader from '../Loader'
 
 import Container from '@material-ui/core/Container';
+import { HistoricContext } from '../../context/historicsContext';
 
 
 moment.locale('es');
 
 const Historic = props => {
-    const [values, setValues] = useState(null);
     const [minDate, setMinDate] = useState(0);
     const [maxDate, setMaxDate] = useState(0);
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    const historicContext = useContext(HistoricContext);
 
     useEffect(() => {
-        setIsLoading(true);
-
         const to = moment().utc().startOf('day').unix();
         const fromPeriod = props.frecuency === "daily" ? 'month' : 'year';
         const from = moment().utc().startOf('day').subtract(5, fromPeriod).unix();
 
-        axios.get(`http://localhost:2000/values/${props.indicador}?from=${from}&to=${to}`)
-            .then(res => {
-                setValues(res.data.data.values);
-                setMinDate(res.data.data.min_date);
-                setMaxDate(res.data.data.max_date);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                setIsLoading(false);
-                setError("Error al cargar la información.")
-            })
+        const getInfo = async (indicador) => {
+            await historicContext.getHistoric(indicador);
+        }
+
+        getInfo(props.indicador);
+
+        // axios.get(`http://localhost:2000/values/${props.indicador}?from=${from}&to=${to}`)
+        //     .then(res => {
+        //         setValues(res.data.data.values);
+        //         setMinDate(res.data.data.min_date);
+        //         setMaxDate(res.data.data.max_date);
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+                
+        //     })
     }, []);
 
-    const data = !values ? null :
-        values.map(v => {
+    const indicadorHistoric = historicContext.historic[props.indicador];
+    const data = !indicadorHistoric || !indicadorHistoric.values ? null :
+        indicadorHistoric.values.map(v => {
             return {
                 fecha: moment.unix(v.date).utc().format("D MMM YY"),
                 valor: v.rate
@@ -59,8 +62,8 @@ const Historic = props => {
     );
 
     return (
-        isLoading ? <Loader /> :
-            error ? <p>{error}</p> :
+        historicContext.isLoading ? <Loader /> :
+            historicContext.error ? <p>{historicContext.error}</p> :
                 <Container>
                     <div><Link to="/">home</Link></div>
                     <div>

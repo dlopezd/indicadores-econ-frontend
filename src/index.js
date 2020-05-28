@@ -6,12 +6,15 @@ import * as serviceWorker from './serviceWorker';
 import './index.css';
 import App from './components/App';
 import LastContextProvider from './context/lastContext';
+import HistoricContextProvider from './context/historicsContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <LastContextProvider>
-        <App />
+        <HistoricContextProvider>
+          <App />
+        </HistoricContextProvider>
       </LastContextProvider>
     </BrowserRouter>
   </React.StrictMode>,
