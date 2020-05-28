@@ -29,12 +29,8 @@ const HistoricContextProvider = props => {
 
     const getHistoricHandler = async (indicador) => {
         try {
-            console.log(`historico: ${JSON.stringify(historic)}`);
-            console.log(`indicador: ${indicador}`);
-            
             setIsLoading(true);
             if (historic[indicador]) {
-                console.log(`hay datos`);
                 setIsLoading(false);
                 return true;
             }
