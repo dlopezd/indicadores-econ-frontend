@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
     },
-    button: {
-        color: '#0000008a',
-    },
     container: {
         padding: 40
     },
@@ -55,14 +52,12 @@ const SearchForm = (props) => {
                 <Grid container justify="space-around">
                     <MuiPickersUtilsProvider utils={MomentUtils} locale='es'>
                         <KeyboardDatePicker
-                            views={props.frecuency === "daily" ? ["month", "day"] : ["month"]}
                             label="Desde"
                             value={from}
                             onChange={date => setFromDate(date)}
                             format={props.frecuency === "daily" ? "D MMM YYYY" : "MMM YYYY"}
                         />
                         <KeyboardDatePicker
-                            views={props.frecuency === "daily" ? ["month", "day"] : ["month"]}
                             label="Hasta"
                             value={to}
                             onChange={date => setToDate(date)}

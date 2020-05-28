@@ -63,15 +63,14 @@ const Historic = props => {
     }, []);
 
     useEffect(() => {
-        console.log(JSON.stringify(dataChart));
         const indicadorHistoric = historicContext.historic[props.indicador];
         if (indicadorHistoric && indicadorHistoric.values) {
             const newData = indicadorHistoric.values
                 .filter(v => {
-                    if (v.date >= from && v.date <= to) {
+                    if(v.date >= from && v.date <= to){
                         return v;
                     }
-                })
+                 })
                 .map(v => {
                     return {
                         fecha: moment.unix(v.date).utc().format("D MMM YY"),
@@ -91,6 +90,7 @@ const Historic = props => {
         setFrom(fromDate);
         setTo(toDate);
     }
+
     const renderLineChart = (
         <LineChart width={600} height={300} data={dataChart} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
             <Line type="monotone" dataKey="valor" stroke="#8884d8" />
@@ -103,7 +103,7 @@ const Historic = props => {
 
     return (
         historicContext.isLoading ? <Loader /> :
-            historicContext.error ? <Error msg="Error al cargar la información."/> :
+            historicContext.error ? <Error msg="Error al cargar la información." /> :
                 <Container className={classes.container}>
                     <Button
                         color="primary"
@@ -133,7 +133,7 @@ const Historic = props => {
                                         dataChart && dataChart[0] && (
                                             dataChart[0].fecha != from ||
                                             dataChart[dataChart.length - 1].fecha != to)
-                                            &&
+                                        &&
                                         <Alert
                                             className={classes.alert}
                                             severity="warning">

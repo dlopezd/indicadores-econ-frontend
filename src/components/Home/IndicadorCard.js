@@ -49,9 +49,9 @@ const IndicadorCard = (props) => {
     const indicador = props.indicador;
     const classes = useStyles();
 
-    const leftText = indicador.unit == "dolar" ? "USD$" :
-        indicador.unit == "pesos" ? "CLP$" : '';
-    const rightText = indicador.unit == "porcentual" ? "%" : ''
+    const leftText = indicador.unit === "dolar" ? "USD$" :
+        indicador.unit === "pesos" ? "CLP$" : '';
+    const rightText = indicador.unit === "porcentual" ? "%" : ''
     return (
         <Grid key={indicador} item>
             <Card className={classes.root} variant="outlined">

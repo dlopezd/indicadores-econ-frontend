@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-    const [spacing, setSpacing] = React.useState(2);
+    const [spacing, setSpacing] = useState(2);
     const classes = useStyles();
     const lastContext = useContext(LastContext)
 
@@ -50,7 +50,7 @@ export default function Home() {
             }
         }
         getInfo();
-    }, []);
+    });
 
     return (
         lastContext.isLoading ? <Loader /> :
