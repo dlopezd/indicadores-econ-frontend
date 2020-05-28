@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { baseUrlApi } from './baseUrl';
+
 
 
 export const LastContext = React.createContext({
@@ -9,7 +11,7 @@ export const LastContext = React.createContext({
     getIndicadores: async _ => { },
 });
 
-const endpoint = "http://localhost:2000/last";
+const endpoint = baseUrlApi + "/last";
 
 const LastContextProvider = props => {
     const [indicadores, setIndicadores] = useState(null);

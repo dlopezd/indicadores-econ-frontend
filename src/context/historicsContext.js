@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { baseUrlApi } from './baseUrl';
 
 
 export const HistoricContext = React.createContext({
@@ -9,7 +10,7 @@ export const HistoricContext = React.createContext({
     getHistoric: async indicador => { },
 });
 
-const endpoint = "http://localhost:2000";
+const endpoint = baseUrlApi;
 
 const HistoricContextProvider = props => {
     const [historic, setHistoric] = useState({
@@ -37,9 +38,9 @@ const HistoricContextProvider = props => {
             var path = `/values/${indicador}`;
             const response = await axios.get(endpoint + path);
 
-            var newHistoric = {...historic};
+            var newHistoric = { ...historic };
             newHistoric[indicador] = response.data.data
-            setHistoric({...newHistoric});
+            setHistoric({ ...newHistoric });
             setIsLoading(false);
             return true;
         }
