@@ -1,5 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import moment from 'moment'
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -38,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     icon: {
         color: '#3f51b5',
         marginLeft: 5
+    },
+    date: {
+        textAlign:'left'
     }
 }));
 
@@ -61,18 +65,35 @@ const IndicadorCard = (props) => {
                             <InfoRoundedIcon className={classes.icon} fontSize="small" />
                         </Tooltip>
                     </Typography>
-                    <Typography
-                        className={classes.title}
-                        variant="subtitle1"
-                        color="textSecondary">
-                        {`${leftText} ${indicador.value} ${rightText}`}
-                    </Typography>
+                    <Grid container justify="space-between">
+                        <Grid item>
+                            <Typography
+                                className={classes.date}
+                                variant="subtitle1"
+                                color="textSecondary">
+                                {`${
+                                    moment.unix(indicador.date)
+                                        .utc()
+                                        .format(indicador.frecuency === "daily" ?
+                                            "D MMM YY" : "MMM YY")
+                                    }`}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <Typography
+                                className={classes.title}
+                                variant="subtitle1"
+                                color="textSecondary">
+                                {`${leftText} ${indicador.value} ${rightText}`}
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </CardContent>
                 <CardActions>
                     <Button
                         className={classes.button}
                         size="small"
-                        onClick={()=> {props.history.push(`${indicador.frecuency}/${indicador.key}`)}}>
+                        onClick={() => { props.history.push(`${indicador.frecuency}/${indicador.key}`) }}>
                         Ver histórico
                     </Button>
                 </CardActions>
