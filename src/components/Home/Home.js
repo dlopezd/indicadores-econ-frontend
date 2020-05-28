@@ -7,7 +7,6 @@ import IndicadorCard from './IndicadorCard'
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import axios from 'axios';
 import { LastContext } from '../../context/lastContext';
 
 const useStyles = makeStyles((theme) => ({
