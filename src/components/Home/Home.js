@@ -50,7 +50,7 @@ export default function Home() {
             }
         }
         getInfo();
-    });
+    },[]);
 
     return (
         lastContext.isLoading ? <Loader /> :
