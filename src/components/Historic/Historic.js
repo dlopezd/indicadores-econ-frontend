@@ -46,10 +46,7 @@ const Historic = props => {
                 fecha: moment.unix(v.date).utc().format("D MMM YY"),
                 valor: v.rate
             }
-        });
-    
-        console.log(data);
-        
+        });        
     
     const renderLineChart = (
         <LineChart width={600} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>

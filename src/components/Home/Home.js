@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import { keys } from '../../utils/util'
 import Loader from '../Loader'
@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import { LastContext } from '../../context/lastContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,34 +38,33 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
     const [spacing, setSpacing] = React.useState(2);
     const classes = useStyles();
-    const [indicadores, setIndicadores] = useState(null);
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    const lastContext = useContext(LastContext)
 
     useEffect(() => {
-        setIsLoading(true);
-        axios.get("http://localhost:2000/last")
-            .then(res => {
-                setIndicadores(res.data.data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                setIsLoading(false);
-                setError("Error al cargar la información.")
-            })
+        const getInfo = async _ => {
+            try {
+                await lastContext.getIndicadores();
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        getInfo();
     }, []);
 
     return (
-        isLoading ? <Loader /> :
-            error ? <p>{error}</p> :
+        lastContext.isLoading ? <Loader /> :
+            lastContext.error ? <p>{lastContext.error}</p> :
                 <Container className={classes.container}>
                     <Grid container className={classes.griptop} spacing={2}>
                         <Grid item >
                             <Grid container justify="center" spacing={spacing}>
                                 {keys.map((key) => {
-                                    const indicador = indicadores[key];
+                                    const indicador = lastContext.indicadores[key];
                                     return (
-                                        <IndicadorCard indicador={indicador} />
+                                        <IndicadorCard
+                                            key={indicador.key}
+                                            indicador={indicador} />
                                     );
                                 })}
                             </Grid>
