@@ -1,4 +1,7 @@
 # indicadores-econ-frontend
+
+https://indecon-frontend.web.app/
+
 Es una aplicación desarrollada en React que consume los servicios de la aplicación [indicadores-econ-backend](https://github.com/dlopezd/indicadores-econ-backend) para obtener indicadores económicos. Las dos principales funciones desarrolladas son:
   - Obtener el último estado de ciertos indicadores.
   - Ver de forma gráfica y en una tabla de datos, el histórico de valores de un indicador en particular.
