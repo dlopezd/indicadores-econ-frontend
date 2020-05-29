@@ -1,3 +1,3 @@
 
 // GUARDAR URL SIN SLASH FINAL 
-export const baseUrlApi = "http://localhost:2000";
+export const baseUrlApi = "https://indecon-backend.herokuapp.com";
